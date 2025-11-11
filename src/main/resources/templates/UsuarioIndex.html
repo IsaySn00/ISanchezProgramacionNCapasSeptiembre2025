@@ -22,8 +22,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         </script>
         <script>
             $(document).on('click', '.btnEliminarUsuario', function() {
-            console.log("se ha hecho clic en el boton")
-                    var idUsuario = $(this).data('id');
+            var idUsuario = $(this).data('id');
+            var btn = $(this);
             Swal.fire({
             title: "¿Estás seguro?",
                     text: "No podrás revertir esto",
@@ -39,10 +39,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     url: '/usuario/deleteUsuario/' + idUsuario,
                     datatype: 'json',
                     success: function () {
-
+                    btn.closest('tr').fadeOut(300, function () {
+                    $(this).remove();
+                    });
+                    Swal.fire({
+                    title: "El usuario se eliminó con exito",
+                            icon: "success"
+                    });
                     },
                     error: function (){
-
+                    Swal.fire({
+                    title: "El usuario no se ha podido eliminar",
+                            icon: "error"
+                    });
                     }
             })
             }
@@ -111,7 +120,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                     <div th:if="${usuario.Direcciones == null or usuario.Direcciones.isEmpty()}">
                                         <p>Este usuario no tiene direcciones aún</p>
                                     </div>
-                                    
+
                                     <div th:if="${usuario.Direcciones.size() > 0}">
                                         <ul>
                                             <li th:each="direccion: ${usuario.Direcciones}">
