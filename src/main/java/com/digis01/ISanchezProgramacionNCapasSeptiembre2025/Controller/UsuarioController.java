@@ -7,6 +7,7 @@ import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.MunicipioDAOImpl
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.PaisDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.RolDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.UsuarioDAOImplementation;
+import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.UsuarioJPADAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.ML.Colonia;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.ML.Direccion;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.ML.ErrorCarga;
@@ -77,6 +78,9 @@ public class UsuarioController {
 
     @Autowired
     private DireccionDAOImplementation direccionDAOImplementation;
+    
+    @Autowired
+    private UsuarioJPADAOImplementation usuarioJPADAOImplementation;
 
     @GetMapping("formularioUsuario")
     public String FormularioUsuario() {
@@ -85,7 +89,7 @@ public class UsuarioController {
 
     @GetMapping("indexUsuario")
     public String Index(Model model) {
-        Result result = usuarioDAOImplementation.GetAll();
+        Result result = usuarioJPADAOImplementation.GetAll();
 
         model.addAttribute("usuarios", result.objects);
         model.addAttribute("Usuario", new Usuario());
