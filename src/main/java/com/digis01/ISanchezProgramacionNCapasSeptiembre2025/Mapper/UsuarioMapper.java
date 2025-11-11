@@ -11,12 +11,17 @@ import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.ML.Municipio;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.ML.Pais;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.ML.Rol;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.ML.Usuario;
+import jakarta.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UsuarioMapper {
+    
+    @Autowired
+    private EntityManager entityManager;
 
     public Usuario EntityToML(UsuarioJPA usuarioJPA) {
 
@@ -77,8 +82,8 @@ public class UsuarioMapper {
         return usuario;
 
     }
-    
-    public UsuarioJPA MLToEntity (Usuario usuario) {
+
+    public UsuarioJPA MLToEntity(Usuario usuario) {
 
         UsuarioJPA usuarioJPA = new UsuarioJPA();
         usuarioJPA.setIdUsuario(usuario.getIdUsuario());
@@ -106,20 +111,19 @@ public class UsuarioMapper {
         usuarioJPA.RolJPA.setNombreRol(usuario.Rol.getNombreRol());
 
         usuarioJPA.DireccionesJPA = new ArrayList<>();
+        Direccion direccion = usuario.Direcciones.get(0);
 
-        for (Direccion direccion : usuario.Direcciones) {
+        DireccionJPA direccionJPA = new DireccionJPA();
+        direccionJPA.setCalle(direccion.getCalle());
+        direccionJPA.setNumeroInterior(direccion.getNumeroInterior());
+        direccionJPA.setNumeroExterior(direccion.getNumeroExterior());
 
-            DireccionJPA direccionJPA = new DireccionJPA();
-            direccionJPA.setCalle(direccion.getCalle());
-            direccionJPA.setNumeroInterior(direccion.getNumeroInterior());
-            direccionJPA.setNumeroExterior(direccion.getNumeroExterior());
-
-            ColoniaJPA coloniaJPA = new ColoniaJPA();
-            coloniaJPA.setIdColonia(direccion.Colonia.getIdColonia());
-
-            direccionJPA.ColoniaJPA = coloniaJPA;
-            usuarioJPA.DireccionesJPA.add(direccionJPA);
-        }
+        ColoniaJPA coloniaJPA = entityManager.getReference(ColoniaJPA.class, direccion.Colonia.getIdColonia());
+        direccionJPA.setColonia(coloniaJPA);
+        
+        direccionJPA.UsuarioJPA = usuarioJPA;
+        
+        usuarioJPA.DireccionesJPA.add(direccionJPA);
 
         return usuarioJPA;
 

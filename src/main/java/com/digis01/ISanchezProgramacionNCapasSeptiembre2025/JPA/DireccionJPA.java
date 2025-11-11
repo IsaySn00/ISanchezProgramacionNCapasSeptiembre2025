@@ -28,7 +28,7 @@ public class DireccionJPA {
     @Column(name = "numeroexterior")
     private String NumeroExterior;
     
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "idcolonia")
     public ColoniaJPA ColoniaJPA;
     

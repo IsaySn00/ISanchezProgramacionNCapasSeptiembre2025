@@ -486,7 +486,7 @@ public class UsuarioController {
             }
         }
 
-        Result result = usuarioDAOImplementation.AddUsuario(usuario);
+        Result result = usuarioJPADAOImplementation.AddUsuario(usuario);
 
         if (result.correct) {
             redirectAttributes.addFlashAttribute("success", "EL usuario" + usuario.getUserName() + "Se creo con exito");

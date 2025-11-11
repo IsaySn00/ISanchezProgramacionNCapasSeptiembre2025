@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.Mapper.UsuarioMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UsuarioJPADAOImplementation implements IUsuarioJPA{
@@ -44,6 +45,29 @@ public class UsuarioJPADAOImplementation implements IUsuarioJPA{
             result.ex = ex;
             result.objects = null;
         }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public Result AddUsuario(Usuario usuario) {
+        Result result = new Result();
+        
+        try{
+            UsuarioJPA usuarioJPA = new UsuarioJPA();
+            
+            usuarioJPA = usuarioMapper.MLToEntity(usuario);
+            
+            entityManager.persist(usuarioJPA);
+            
+            result.correct = true;
+            
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        
         return result;
     }
 
