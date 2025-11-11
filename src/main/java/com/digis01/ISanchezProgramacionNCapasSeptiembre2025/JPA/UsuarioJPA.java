@@ -105,7 +105,7 @@ public class UsuarioJPA {
 
     @ManyToOne()
     @JoinColumn(name = "idrol", nullable = false)
-    private RolJPA RolJPA;
+    public RolJPA RolJPA;
 
     @OneToMany(mappedBy = "UsuarioJPA", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<DireccionJPA> DireccionesJPA = new ArrayList<>();
