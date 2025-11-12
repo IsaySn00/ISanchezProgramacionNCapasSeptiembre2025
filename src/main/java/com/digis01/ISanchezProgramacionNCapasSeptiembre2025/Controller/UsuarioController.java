@@ -604,7 +604,7 @@ public class UsuarioController {
         Result result = new Result();
 
         if (direccion.getIdDireccion() > 0) {
-            result = direccionDAOImplementation.UpdateDireccion(direccion, idUsuario);
+            result = direccionJPADAOImplementation.UpdateDireccion(direccion, idUsuario);
         } else {
             result = direccionJPADAOImplementation.AddDireccion(direccion, idUsuario);
         }
@@ -624,7 +624,7 @@ public class UsuarioController {
 
     @PostMapping("/deleteDireccion/{idDireccion}")
     public String deleteDireccion(@PathVariable("idDireccion") int idDireccion, @RequestParam("usuarioId") int usuarioId, RedirectAttributes redirectAttributes) {
-        Result result = direccionDAOImplementation.DeleteDireccion(idDireccion);
+        Result result = direccionJPADAOImplementation.DeleteDireccion(idDireccion);
 
         if (result.correct) {
             redirectAttributes.addFlashAttribute("successMessage", "La dirección se eliminó con exito");

@@ -7,4 +7,6 @@ import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.ML.Result;
 public interface IDireccionJPA {
 
     Result AddDireccion(Direccion direccion, int id);
+    Result UpdateDireccion(Direccion direccion, int id);
+    Result DeleteDireccion(int id);
 }

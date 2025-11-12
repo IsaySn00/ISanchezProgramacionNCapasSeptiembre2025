@@ -41,4 +41,43 @@ public class DireccionJPADAOImplementation implements IDireccionJPA{
         return result;
     }
 
+    @Override
+    @Transactional
+    public Result UpdateDireccion(Direccion direccion, int id) {
+        Result result = new Result();
+        try{
+            DireccionJPA direccionJPA = direccionMapper.MLToEntity(direccion);
+            direccionJPA.UsuarioJPA = new UsuarioJPA();
+            direccionJPA.UsuarioJPA.setIdUsuario(id);
+            
+            entityManager.merge(direccionJPA);
+            
+            result.correct = true;
+            
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public Result DeleteDireccion(int id) {
+        Result result = new Result();
+        
+        try{
+            DireccionJPA direccionJPA = entityManager.getReference(DireccionJPA.class, id);
+            entityManager.remove(direccionJPA);
+            result.correct = true;
+            
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        return result;
+    }
+
 }
