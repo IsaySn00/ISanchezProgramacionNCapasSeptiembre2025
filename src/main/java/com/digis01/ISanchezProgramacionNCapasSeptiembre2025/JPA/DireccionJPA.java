@@ -86,4 +86,12 @@ public class DireccionJPA {
     public ColoniaJPA getColonia(){
         return ColoniaJPA;
     }
+    
+    public void setUsuario(UsuarioJPA usuario){
+        this.UsuarioJPA = usuario;
+    }
+    
+    public UsuarioJPA getUsuario(){
+        return UsuarioJPA;
+    }
 }

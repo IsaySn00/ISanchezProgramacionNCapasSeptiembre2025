@@ -8,7 +8,7 @@ public class Direccion {
     private String NumeroInterior;
     private String NumeroExterior;
     public Colonia Colonia;
-    
+    public Usuario Usuario;
     
      public Direccion(){
         
@@ -59,5 +59,13 @@ public class Direccion {
     
     public Colonia getColonia(){
         return Colonia;
+    }
+    
+    public void setUsuario(Usuario usuario){
+        this.Usuario = usuario;
+    }
+    
+    public Usuario getUsuario(){
+        return Usuario;
     }
 }

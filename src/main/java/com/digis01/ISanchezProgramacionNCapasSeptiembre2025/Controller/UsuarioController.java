@@ -2,6 +2,7 @@ package com.digis01.ISanchezProgramacionNCapasSeptiembre2025.Controller;
 
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.ColoniaDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.DireccionDAOImplementation;
+import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.DireccionJPADAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.EstadoDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.MunicipioDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.PaisDAOImplementation;
@@ -81,6 +82,9 @@ public class UsuarioController {
     
     @Autowired
     private UsuarioJPADAOImplementation usuarioJPADAOImplementation;
+    
+    @Autowired
+    private DireccionJPADAOImplementation direccionJPADAOImplementation;
 
     @GetMapping("formularioUsuario")
     public String FormularioUsuario() {
@@ -602,7 +606,7 @@ public class UsuarioController {
         if (direccion.getIdDireccion() > 0) {
             result = direccionDAOImplementation.UpdateDireccion(direccion, idUsuario);
         } else {
-            result = direccionDAOImplementation.AddDireccion(direccion, idUsuario);
+            result = direccionJPADAOImplementation.AddDireccion(direccion, idUsuario);
         }
 
         if (result.correct) {
