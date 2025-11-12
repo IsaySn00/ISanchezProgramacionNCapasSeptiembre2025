@@ -55,6 +55,7 @@ public class UsuarioMapper {
         for (DireccionJPA direccionJPA : usuarioJPA.DireccionesJPA) {
 
             Direccion direccion = new Direccion();
+            direccion.setIdDireccion(direccionJPA.getIdDireccion());
             direccion.setCalle(direccionJPA.getCalle());
             direccion.setNumeroInterior(direccionJPA.getNumeroInterior());
             direccion.setNumeroExterior(direccionJPA.getNumeroExterior());

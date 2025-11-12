@@ -418,7 +418,7 @@ public class UsuarioController {
 
     @GetMapping("detail/{idUsuario}")
     public String Detail(@PathVariable("idUsuario") int idUsuario, Model model) {
-        Result result = usuarioDAOImplementation.GetById(idUsuario);
+        Result result = usuarioJPADAOImplementation.GetById(idUsuario);
 
         Usuario usuario = (Usuario) result.object;
 

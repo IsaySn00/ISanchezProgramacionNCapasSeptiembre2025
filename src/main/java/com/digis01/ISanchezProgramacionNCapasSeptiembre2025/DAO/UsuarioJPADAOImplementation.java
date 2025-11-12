@@ -71,5 +71,24 @@ public class UsuarioJPADAOImplementation implements IUsuarioJPA{
         return result;
     }
 
+    @Override
+    public Result GetById(int id) {
+        
+        Result result = new Result();
+        try{
+            UsuarioJPA usuarioJPA = entityManager.find(UsuarioJPA.class, id);
+            
+            Usuario usuario = new Usuario();
+            usuario = usuarioMapper.EntityToML(usuarioJPA);
+            result.object = usuario;
+        }catch(Exception ex){
+            result.correct = true;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+            result.object = null;
+        }
+        return result;
+    }
+
     
 }

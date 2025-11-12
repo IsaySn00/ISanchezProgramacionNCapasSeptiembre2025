@@ -8,5 +8,6 @@ public interface IUsuarioJPA {
     
     Result GetAll();
     Result AddUsuario(Usuario usuario);
+    Result GetById(int id);
 
 }
