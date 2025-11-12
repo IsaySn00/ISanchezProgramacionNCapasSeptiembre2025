@@ -90,5 +90,27 @@ public class UsuarioJPADAOImplementation implements IUsuarioJPA{
         return result;
     }
 
+    @Override
+    @Transactional
+    public Result UpdateUsuario(Usuario usuario) {
+        Result result = new Result();
+        
+        try{
+            UsuarioJPA usuarioJPA = new UsuarioJPA();
+            
+            usuarioJPA = usuarioMapper.MLToEntity(usuario);
+            
+            entityManager.merge(usuarioJPA);
+            
+            result.correct = true;
+            
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        return result;
+    }
+
     
 }

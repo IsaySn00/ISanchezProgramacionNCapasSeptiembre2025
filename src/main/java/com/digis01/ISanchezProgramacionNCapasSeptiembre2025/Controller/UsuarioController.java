@@ -503,7 +503,7 @@ public class UsuarioController {
     public String updateUsuario(@ModelAttribute("usuario") Usuario usuario,
             RedirectAttributes redirectAttributes) {
 
-        Result result = usuarioDAOImplementation.UpdateUsuario(usuario);
+        Result result = usuarioJPADAOImplementation.UpdateUsuario(usuario);
 
         if (result.correct) {
             redirectAttributes.addFlashAttribute("successMessage", "EL usuario editó con exito");

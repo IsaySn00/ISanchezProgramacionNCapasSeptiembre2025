@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UsuarioMapper {
-    
+
     @Autowired
     private EntityManager entityManager;
 
@@ -111,20 +111,22 @@ public class UsuarioMapper {
         usuarioJPA.RolJPA.setIdRol(usuario.Rol.getIdRol());
         usuarioJPA.RolJPA.setNombreRol(usuario.Rol.getNombreRol());
 
-        usuarioJPA.DireccionesJPA = new ArrayList<>();
-        Direccion direccion = usuario.Direcciones.get(0);
+        if (usuario.Direcciones != null) {
+            usuarioJPA.DireccionesJPA = new ArrayList<>();
+            Direccion direccion = usuario.Direcciones.get(0);
 
-        DireccionJPA direccionJPA = new DireccionJPA();
-        direccionJPA.setCalle(direccion.getCalle());
-        direccionJPA.setNumeroInterior(direccion.getNumeroInterior());
-        direccionJPA.setNumeroExterior(direccion.getNumeroExterior());
+            DireccionJPA direccionJPA = new DireccionJPA();
+            direccionJPA.setCalle(direccion.getCalle());
+            direccionJPA.setNumeroInterior(direccion.getNumeroInterior());
+            direccionJPA.setNumeroExterior(direccion.getNumeroExterior());
 
-        ColoniaJPA coloniaJPA = entityManager.getReference(ColoniaJPA.class, direccion.Colonia.getIdColonia());
-        direccionJPA.setColonia(coloniaJPA);
-        
-        direccionJPA.UsuarioJPA = usuarioJPA;
-        
-        usuarioJPA.DireccionesJPA.add(direccionJPA);
+            ColoniaJPA coloniaJPA = entityManager.getReference(ColoniaJPA.class, direccion.Colonia.getIdColonia());
+            direccionJPA.setColonia(coloniaJPA);
+
+            direccionJPA.UsuarioJPA = usuarioJPA;
+
+            usuarioJPA.DireccionesJPA.add(direccionJPA);
+        }
 
         return usuarioJPA;
 
