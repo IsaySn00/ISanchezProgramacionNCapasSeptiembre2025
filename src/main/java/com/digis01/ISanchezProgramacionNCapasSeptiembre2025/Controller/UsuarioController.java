@@ -535,7 +535,7 @@ public class UsuarioController {
             }
         }
 
-        Result result = usuarioDAOImplementation.UpdateImgUsuario(usuario);
+        Result result = usuarioJPADAOImplementation.UpdateImgUsuario(usuario);
 
         if (result.correct) {
             redirectAttributes.addFlashAttribute("successMessage", "La imagen se actualizó con exito");

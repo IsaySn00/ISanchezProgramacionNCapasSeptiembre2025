@@ -10,5 +10,6 @@ public interface IUsuarioJPA {
     Result AddUsuario(Usuario usuario);
     Result GetById(int id);
     Result UpdateUsuario(Usuario usuario);
+    Result UpdateImgUsuario(Usuario usuario);
 
 }

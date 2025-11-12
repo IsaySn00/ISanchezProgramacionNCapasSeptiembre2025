@@ -107,9 +107,11 @@ public class UsuarioMapper {
         usuarioJPA.setCelularUsuario(usuario.getCelularUsuario());
         usuarioJPA.setCurpUsuario(usuario.getCurpUsuario());
 
-        usuarioJPA.RolJPA = new RolJPA();
-        usuarioJPA.RolJPA.setIdRol(usuario.Rol.getIdRol());
-        usuarioJPA.RolJPA.setNombreRol(usuario.Rol.getNombreRol());
+        if (usuario.Rol != null) {
+            usuarioJPA.RolJPA = new RolJPA();
+            usuarioJPA.RolJPA.setIdRol(usuario.Rol.getIdRol());
+            usuarioJPA.RolJPA.setNombreRol(usuario.Rol.getNombreRol());
+        }
 
         if (usuario.Direcciones != null) {
             usuarioJPA.DireccionesJPA = new ArrayList<>();

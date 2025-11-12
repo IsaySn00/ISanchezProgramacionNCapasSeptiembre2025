@@ -116,4 +116,29 @@ public class UsuarioJPADAOImplementation implements IUsuarioJPA{
         return result;
     }
 
+    @Override
+    @Transactional
+    public Result UpdateImgUsuario(Usuario usuario) {
+        
+        Result result = new Result();
+        try{
+            UsuarioJPA usuarioJPA = usuarioMapper.MLToEntity(usuario);
+            
+            String query = "UPDATE UsuarioJPA SET FotoUsuario = :newFoto WHERE IdUsuario = :id";
+            
+            entityManager.createQuery(query)
+                    .setParameter("newFoto", usuarioJPA.getFotoUsuario())
+                    .setParameter("id", usuarioJPA.getIdUsuario())
+                    .executeUpdate();
+            
+            result.correct = true;
+            
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        return result;
+    }
+
 }
