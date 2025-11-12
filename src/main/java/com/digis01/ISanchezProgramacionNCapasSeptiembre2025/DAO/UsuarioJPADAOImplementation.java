@@ -96,9 +96,13 @@ public class UsuarioJPADAOImplementation implements IUsuarioJPA{
         Result result = new Result();
         
         try{
-            UsuarioJPA usuarioJPA = new UsuarioJPA();
+            UsuarioJPA usuarioFind = entityManager.find(UsuarioJPA.class, usuario.getIdUsuario());
             
-            usuarioJPA = usuarioMapper.MLToEntity(usuario);
+            UsuarioJPA usuarioJPA = usuarioMapper.MLToEntity(usuario);
+            
+            usuarioJPA.setPasswordUser(usuarioFind.getPasswordUser());
+            usuarioJPA.setFotoUsuario(usuarioFind.getFotoUsuario());
+            usuarioJPA.setDirecciones(usuarioFind.getDirecciones());
             
             entityManager.merge(usuarioJPA);
             
@@ -112,5 +116,4 @@ public class UsuarioJPADAOImplementation implements IUsuarioJPA{
         return result;
     }
 
-    
 }

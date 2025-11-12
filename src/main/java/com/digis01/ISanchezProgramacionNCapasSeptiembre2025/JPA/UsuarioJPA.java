@@ -261,4 +261,12 @@ public class UsuarioJPA {
         return RolJPA;
     }
     
+    public void setDirecciones(List<DireccionJPA> Direcciones) {
+        this.DireccionesJPA = Direcciones;
+    }
+
+    public List<DireccionJPA> getDirecciones() {
+        return DireccionesJPA;
+    }
+    
 }
