@@ -25,7 +25,7 @@ public class PaisJPADAOImplementation implements IPaisJPA{
         Result result = new Result();
         result.objects = new ArrayList<>();
         try{
-            TypedQuery<PaisJPA> queryPais = entityManager.createQuery("FROM PaisJPA", PaisJPA.class);
+            TypedQuery<PaisJPA> queryPais = entityManager.createQuery("FROM PaisJPA ORDER BY NombrePais", PaisJPA.class);
             List<PaisJPA> paisesJPA = queryPais.getResultList();
             
             for(PaisJPA paisJPA : paisesJPA){

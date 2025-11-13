@@ -26,7 +26,7 @@ public class MunicipioJPADAOImplementation implements IMunicipioJPA{
         result.objects = new ArrayList<>();
         try{
             
-            TypedQuery<MunicipioJPA> queryMunicipios = entityManager.createQuery("FROM MunicipioJPA WHERE EstadoJPA.IdEstado = :id", MunicipioJPA.class);
+            TypedQuery<MunicipioJPA> queryMunicipios = entityManager.createQuery("FROM MunicipioJPA WHERE EstadoJPA.IdEstado = :id ORDER BY NombreMunicipio", MunicipioJPA.class);
             queryMunicipios.setParameter("id", id);
             List<MunicipioJPA> municipios = queryMunicipios.getResultList();
             

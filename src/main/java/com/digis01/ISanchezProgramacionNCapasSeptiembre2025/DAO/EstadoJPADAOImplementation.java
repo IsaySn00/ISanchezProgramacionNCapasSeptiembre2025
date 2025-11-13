@@ -25,7 +25,7 @@ public class EstadoJPADAOImplementation implements IEstadoJPA{
         Result result = new Result();
         result.objects = new ArrayList<>();
         try{
-            TypedQuery<EstadoJPA> queryEstado = entityManager.createQuery("FROM EstadoJPA WHERE PaisJPA.IdPais = :id", EstadoJPA.class);
+            TypedQuery<EstadoJPA> queryEstado = entityManager.createQuery("FROM EstadoJPA WHERE PaisJPA.IdPais = :id ORDER BY NombreEstado", EstadoJPA.class);
             queryEstado.setParameter("id", idPais);
             List<EstadoJPA> estadosJPA = queryEstado.getResultList();
             

@@ -26,7 +26,7 @@ public class ColoniaJPADAOImplementation implements IColoniaJPA {
         result.objects = new ArrayList<>();
         try {
 
-            TypedQuery<ColoniaJPA> queryColonias = entityManager.createQuery("FROM ColoniaJPA WHERE MunicipioJPA.IdMunicipio =  :id", ColoniaJPA.class);
+            TypedQuery<ColoniaJPA> queryColonias = entityManager.createQuery("FROM ColoniaJPA WHERE MunicipioJPA.IdMunicipio =  :id ORDER BY NombreColonia", ColoniaJPA.class);
             queryColonias.setParameter("id", idMunicipio);
             List<ColoniaJPA> colonias = queryColonias.getResultList();
 

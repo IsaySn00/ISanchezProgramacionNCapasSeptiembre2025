@@ -589,7 +589,7 @@ public class UsuarioController {
 
     @PostMapping("/addDireccion")
     public String addDireccionToUser(@ModelAttribute("Direccion") Direccion direccion, @RequestParam int usuarioId, RedirectAttributes redirectAttributes) {
-        Result result = direccionDAOImplementation.AddDireccion(direccion, usuarioId);
+        Result result = direccionJPADAOImplementation.AddDireccion(direccion, usuarioId);
 
         if (result.correct) {
             redirectAttributes.addFlashAttribute("successMessage", "La dirección se agregó con exito");
@@ -604,7 +604,7 @@ public class UsuarioController {
 
     @PostMapping("/updateDireccion")
     public String updateDireccion(@ModelAttribute("Direccion") Direccion direccion, @RequestParam int usuarioId, RedirectAttributes redirectAttributes) {
-        Result result = direccionDAOImplementation.UpdateDireccion(direccion, usuarioId);
+        Result result = direccionJPADAOImplementation.UpdateDireccion(direccion, usuarioId);
 
         if (result.correct) {
             redirectAttributes.addFlashAttribute("successMessage", "La dirección se actualizó con exito");
