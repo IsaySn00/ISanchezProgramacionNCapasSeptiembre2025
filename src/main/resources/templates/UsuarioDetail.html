@@ -25,10 +25,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <div class="mb-3">
                         <label class="form-label">Actualizar foto de Usuario</label>
                         <div class="row">
-                            <form th:action="@{/usuario/updateImgUsuario}" th:object="${usuario}" enctype="multipart/form-data" method="post">
+                            <form th:action="@{/usuario/updateImgUsuario}" id="formUpdateImg" th:object="${usuario}" enctype="multipart/form-data" method="post">
                                 <input type="hidden" th:field="*{idUsuario}"/>
-                                <input class="form-control col-6" type="file" accept="image/*" name="imagenFile"></input>
-                                <button class="btn btn-success col-2 mt-2 ms-auto"><i class="bi bi-check-lg"></i></button>
+                                <input class="form-control col-6" type="file" accept="image/*" id="inputImgUsuario" name="imagenFile"></input>
+                                <button type="button" style="display: none;" id="btnUpdateImg" class="btn btn-success col-2 mt-2 ms-auto"><i class="bi bi-check-lg"></i></button>
                             </form>
                         </div>
                     </div>
@@ -201,7 +201,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <script>
             $(document).ready(function () {
 
-            $("#ddlPais").change(function () {
+            $("#btnUpdateImg").click(function () {
+            const form = document.getElementById("formUpdateImg");
+            const fileInput = form.querySelector('input[name="imagenFile"]');
+            Swal.fire({
+            title: "¿Esta seguro que desea actualizar la foto?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Sí",
+                    cancelButtonText: "No",
+            }).then((result) => {
+                
+                
+            if (result.isConfirmed) {
+                form.submit();
+            }
+            });
+            })
+            
+            $("#inputImgUsuario").change(function () {
+                $("#btnUpdateImg").css("display", "block");
+            })
+
+                    $("#ddlPais").change(function () {
             $.ajax({
             type: "GET",
                     url: "/usuario/estado/" + $("#ddlPais").val(),
@@ -271,7 +295,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     datatype: "json",
                     success: function (data, textStatus, jqXHR) {
                     $("#codigoPostal").empty();
-                    $("#codigoPostal").val(data.object.codigoPostal);
+                    $("#codigoPostal").val(data.object);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                     alert("No hay datos")
@@ -328,12 +352,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     $('#direccionId').val(d.idDireccion);
                     $('#ddlPais').val(d.Colonia.Municipio.Estado.Pais.idPais);
                     cargarEstados(d.Colonia.Municipio.Estado.Pais.idPais, function() {
-                        $("#ddlEstado").val(d.Colonia.Municipio.Estado.idEstado);
-                        cargarMunicipios(d.Colonia.Municipio.Estado.idEstado, function() {
-                            $("#ddlMunicipio").val(d.Colonia.Municipio.idMunicipio);
-                            cargarColonias(d.Colonia.Municipio.idMunicipio, function() {
-                                $("#ddlColonia").val(d.Colonia.idColonia);
-                                $("#codigoPostal").val(d.Colonia.codigoPostal);
+                    $("#ddlEstado").val(d.Colonia.Municipio.Estado.idEstado);
+                    cargarMunicipios(d.Colonia.Municipio.Estado.idEstado, function() {
+                    $("#ddlMunicipio").val(d.Colonia.Municipio.idMunicipio);
+                    cargarColonias(d.Colonia.Municipio.idMunicipio, function() {
+                    $("#ddlColonia").val(d.Colonia.idColonia);
+                    $("#codigoPostal").val(d.Colonia.codigoPostal);
                     });
                     });
                     });
@@ -366,13 +390,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     url: `/usuario/deleteDireccion/${idDireccion}?usuarioId=${usuarioId}`,
                     success: function () {
                     btn.closest('tr').fadeOut(300, function () {
-                        $(this).remove();
+                    $(this).remove();
                     });
                     Swal.fire({
                     title: "La dirección se eliminó con exito",
                             icon: "success"
                     });
-                    },  
+                    },
                     error: function () {
                     Swal.fire({
                     title: "La dirección no se ha podido eliminar",
@@ -451,7 +475,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     url: "/usuario/colonia?" + "nombreColonia=" + nombreColonia + "&idMunicipio=" + idMunicipio,
                     datatype: "json",
                     success: function (data, textStatus, jqXHR) {
-                    $("#codigoPostal").val(data.object.codigoPostal);
+                    $("#codigoPostal").val(data.object);
                     if (callback) callback();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
