@@ -36,11 +36,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             if (result.isConfirmed){
             $.ajax({
             type: 'POST',
-                    url: '/usuario/deleteUsuario/' + idUsuario,
-                    datatype: 'json',
+                    url: `/usuario/deleteUsuario/${idUsuario}`,
                     success: function () {
                     btn.closest('tr').fadeOut(300, function () {
-                    $(this).remove();
+                        $(this).remove();
                     });
                     Swal.fire({
                     title: "El usuario se eliminó con exito",

@@ -554,7 +554,7 @@ public class UsuarioController {
 
     @PostMapping("deleteUsuario/{idUsuario}")
     public String deleteUsuario(@PathVariable("idUsuario") int idUsuario, RedirectAttributes redirectAttributes) {
-        Result result = usuarioDAOImplementation.DeleteUsuaurio(idUsuario);
+        Result result = usuarioJPADAOImplementation.DeleteUsuario(idUsuario);
 
         if (result.correct) {
             redirectAttributes.addFlashAttribute("successMessage", "EL usuario editó con exito");
