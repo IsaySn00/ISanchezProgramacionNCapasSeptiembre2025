@@ -11,6 +11,7 @@ import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.MunicipioJPADAOI
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.PaisDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.PaisJPADAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.RolDAOImplementation;
+import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.RolJPADAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.UsuarioDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.UsuarioJPADAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.ML.Colonia;
@@ -101,6 +102,9 @@ public class UsuarioController {
     
     @Autowired
     private ColoniaJPADAOImplementation coloniaJPADAOImplementation;
+    
+    @Autowired 
+    private RolJPADAOImplementation rolJPADAOImplementation;
 
     @GetMapping("formularioUsuario")
     public String FormularioUsuario() {
@@ -444,7 +448,7 @@ public class UsuarioController {
 
         model.addAttribute("direccion", new Direccion());
         model.addAttribute("usuario", result.object);
-        model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
+        model.addAttribute("roles", rolJPADAOImplementation.GetAll().objects);
         model.addAttribute("paises", paisJPADAOImplementation.GetAll().objects);
         if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
             model.addAttribute("estados", estadoJPADAOImplementation.GetAll(usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais()).objects);
@@ -465,7 +469,7 @@ public class UsuarioController {
         Usuario usuario = new Usuario();
 
         model.addAttribute("Usuario", usuario);
-        model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
+        model.addAttribute("roles", rolJPADAOImplementation.GetAll().objects);
         model.addAttribute("paises", paisJPADAOImplementation.GetAll().objects);
 
         return "UsuarioForm";
@@ -478,7 +482,7 @@ public class UsuarioController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("Usuario", usuario);
-            model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
+            model.addAttribute("roles", rolJPADAOImplementation.GetAll().objects);
             model.addAttribute("paises", paisJPADAOImplementation.GetAll().objects);
             if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
                 model.addAttribute("estados", estadoJPADAOImplementation.GetAll(usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais()).objects);
