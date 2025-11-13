@@ -1,6 +1,7 @@
 package com.digis01.ISanchezProgramacionNCapasSeptiembre2025.Controller;
 
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.ColoniaDAOImplementation;
+import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.ColoniaJPADAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.DireccionDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.DireccionJPADAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.EstadoDAOImplementation;
@@ -97,6 +98,9 @@ public class UsuarioController {
 
     @Autowired
     private MunicipioJPADAOImplementation municipioJPaDAOImplementation;
+    
+    @Autowired
+    private ColoniaJPADAOImplementation coloniaJPADAOImplementation;
 
     @GetMapping("formularioUsuario")
     public String FormularioUsuario() {
@@ -447,7 +451,7 @@ public class UsuarioController {
             if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
                 model.addAttribute("municipios", municipioJPaDAOImplementation.GetAllMunicipioByIdEstado(usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado()).objects);
                 if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado() > 0) {
-                    model.addAttribute("colonias", coloniaDAOImplementation.GetAllColoniaByIdMunicipio(usuario.Direcciones.get(0).Colonia.Municipio.getIdMunicipio()).objects);
+                    model.addAttribute("colonias", coloniaJPADAOImplementation.GetAllColoniaByIdMunicipio(usuario.Direcciones.get(0).Colonia.Municipio.getIdMunicipio()).objects);
                 }
             }
         }
@@ -481,7 +485,7 @@ public class UsuarioController {
                 if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
                     model.addAttribute("municipios", municipioJPaDAOImplementation.GetAllMunicipioByIdEstado(usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado()).objects);
                     if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado() > 0) {
-                        model.addAttribute("colonias", coloniaDAOImplementation.GetAllColoniaByIdMunicipio(usuario.Direcciones.get(0).Colonia.Municipio.getIdMunicipio()).objects);
+                        model.addAttribute("colonias", coloniaJPADAOImplementation.GetAllColoniaByIdMunicipio(usuario.Direcciones.get(0).Colonia.Municipio.getIdMunicipio()).objects);
                     }
                 }
             }
@@ -664,13 +668,13 @@ public class UsuarioController {
     @GetMapping("colonia/{idMunicipio}")
     @ResponseBody
     public Result GetColoniaByIdMunicipio(@PathVariable("idMunicipio") int idMunicipio) {
-        return coloniaDAOImplementation.GetAllColoniaByIdMunicipio(idMunicipio);
+        return coloniaJPADAOImplementation.GetAllColoniaByIdMunicipio(idMunicipio);
     }
 
     @GetMapping("colonia")
     @ResponseBody
     public Result GetCodigoPostalByNameColoniaIdMnpio(@RequestParam("nombreColonia") String nombreColonia, @RequestParam("idMunicipio") int idMunicipio) {
-        return coloniaDAOImplementation.GetCodigoPostalByNameColoniaIdMnpio(nombreColonia, idMunicipio);
+        return coloniaJPADAOImplementation.GetCodigoPostalByNameColoniaIdMnpio(nombreColonia, idMunicipio);
     }
 
     @GetMapping("direccion/{codigoPostal}")
