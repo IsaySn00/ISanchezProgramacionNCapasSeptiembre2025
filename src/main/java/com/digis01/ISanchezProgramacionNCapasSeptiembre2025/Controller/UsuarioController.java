@@ -4,6 +4,7 @@ import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.ColoniaDAOImplem
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.DireccionDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.DireccionJPADAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.EstadoDAOImplementation;
+import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.EstadoJPADAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.MunicipioDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.PaisDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.PaisJPADAOImplementation;
@@ -89,6 +90,9 @@ public class UsuarioController {
     
     @Autowired 
     private PaisJPADAOImplementation paisJPADAOImplementation;
+    
+    @Autowired
+    private EstadoJPADAOImplementation estadoJPADAOImplementation;
 
     @GetMapping("formularioUsuario")
     public String FormularioUsuario() {
@@ -435,7 +439,7 @@ public class UsuarioController {
         model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
         model.addAttribute("paises", paisJPADAOImplementation.GetAll().objects);
         if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
-            model.addAttribute("estados", estadoDAOImplementation.GetAll(usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais()).objects);
+            model.addAttribute("estados", estadoJPADAOImplementation.GetAll(usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais()).objects);
             if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
                 model.addAttribute("municipios", municipioDAOImplementation.GetAllMunicipioByIdEstado(usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado()).objects);
                 if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado() > 0) {
@@ -469,7 +473,7 @@ public class UsuarioController {
             model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
             model.addAttribute("paises", paisJPADAOImplementation.GetAll().objects);
             if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
-                model.addAttribute("estados", estadoDAOImplementation.GetAll(usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais()).objects);
+                model.addAttribute("estados", estadoJPADAOImplementation.GetAll(usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais()).objects);
                 if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
                     model.addAttribute("municipios", municipioDAOImplementation.GetAllMunicipioByIdEstado(usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado()).objects);
                     if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado() > 0) {
@@ -644,7 +648,7 @@ public class UsuarioController {
     @GetMapping("estado/{idPais}")
     @ResponseBody
     public Result GetEstadosById(@PathVariable("idPais") int idPais) {
-        return estadoDAOImplementation.GetAll(idPais);
+        return estadoJPADAOImplementation.GetAll(idPais);
     }
 
     @GetMapping("municipio/{idEstado}")
