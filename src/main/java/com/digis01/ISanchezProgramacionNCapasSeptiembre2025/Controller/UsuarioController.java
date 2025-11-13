@@ -6,6 +6,7 @@ import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.DireccionJPADAOI
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.EstadoDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.EstadoJPADAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.MunicipioDAOImplementation;
+import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.MunicipioJPADAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.PaisDAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.PaisJPADAOImplementation;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.DAO.RolDAOImplementation;
@@ -81,18 +82,21 @@ public class UsuarioController {
 
     @Autowired
     private DireccionDAOImplementation direccionDAOImplementation;
-    
+
     @Autowired
     private UsuarioJPADAOImplementation usuarioJPADAOImplementation;
-    
+
     @Autowired
     private DireccionJPADAOImplementation direccionJPADAOImplementation;
-    
-    @Autowired 
+
+    @Autowired
     private PaisJPADAOImplementation paisJPADAOImplementation;
-    
+
     @Autowired
     private EstadoJPADAOImplementation estadoJPADAOImplementation;
+
+    @Autowired
+    private MunicipioJPADAOImplementation municipioJPaDAOImplementation;
 
     @GetMapping("formularioUsuario")
     public String FormularioUsuario() {
@@ -126,22 +130,22 @@ public class UsuarioController {
 
     @GetMapping("cargaMasiva/procesar")
     public String CargaMasiva(HttpSession session, Model model) {
-            
+
         String path = session.getAttribute("archivoCargaMasiva").toString();
         session.removeAttribute("archivoCargaMasiva");
         List<Usuario> lista = new ArrayList<>();
 
         File file = new File(path);
         String extension = FilenameUtils.getExtension(path);
-        
+
         if (extension.equals("txt")) {
             lista = LeerArchivoTXT(file);
         } else if (extension.equals("xlsx")) {
             lista = LecturaArchivoXLSX(file);
         }
-        
+
         Result result = usuarioDAOImplementation.AddUsuariosByFile(lista);
-        
+
         if (result.correct) {
             model.addAttribute("success", "Los usuarios se procesaron con exito");
             model.addAttribute("icon", "success");
@@ -441,7 +445,7 @@ public class UsuarioController {
         if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
             model.addAttribute("estados", estadoJPADAOImplementation.GetAll(usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais()).objects);
             if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
-                model.addAttribute("municipios", municipioDAOImplementation.GetAllMunicipioByIdEstado(usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado()).objects);
+                model.addAttribute("municipios", municipioJPaDAOImplementation.GetAllMunicipioByIdEstado(usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado()).objects);
                 if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado() > 0) {
                     model.addAttribute("colonias", coloniaDAOImplementation.GetAllColoniaByIdMunicipio(usuario.Direcciones.get(0).Colonia.Municipio.getIdMunicipio()).objects);
                 }
@@ -475,7 +479,7 @@ public class UsuarioController {
             if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
                 model.addAttribute("estados", estadoJPADAOImplementation.GetAll(usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais()).objects);
                 if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
-                    model.addAttribute("municipios", municipioDAOImplementation.GetAllMunicipioByIdEstado(usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado()).objects);
+                    model.addAttribute("municipios", municipioJPaDAOImplementation.GetAllMunicipioByIdEstado(usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado()).objects);
                     if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.getIdEstado() > 0) {
                         model.addAttribute("colonias", coloniaDAOImplementation.GetAllColoniaByIdMunicipio(usuario.Direcciones.get(0).Colonia.Municipio.getIdMunicipio()).objects);
                     }
@@ -654,7 +658,7 @@ public class UsuarioController {
     @GetMapping("municipio/{idEstado}")
     @ResponseBody
     public Result GetMunicipioByIdEstado(@PathVariable("idEstado") int idEstado) {
-        return municipioDAOImplementation.GetAllMunicipioByIdEstado(idEstado);
+        return municipioJPaDAOImplementation.GetAllMunicipioByIdEstado(idEstado);
     }
 
     @GetMapping("colonia/{idMunicipio}")
