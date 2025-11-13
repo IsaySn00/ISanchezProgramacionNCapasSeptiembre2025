@@ -80,4 +80,27 @@ public class DireccionJPADAOImplementation implements IDireccionJPA{
         return result;
     }
 
+    @Override
+    public Result GetAddressById(int id) {
+        Result result = new Result();
+        
+        try{
+            DireccionJPA direccionJPA = entityManager.find(DireccionJPA.class, id);
+            
+            Direccion direccion = new Direccion();
+            
+            direccion = direccionMapper.EntityToML(direccionJPA);
+            
+            result.object = direccion;
+            
+            result.correct = true;
+            
+        }catch(Exception ex){
+            result.correct = true;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        return result;
+    }
+
 }

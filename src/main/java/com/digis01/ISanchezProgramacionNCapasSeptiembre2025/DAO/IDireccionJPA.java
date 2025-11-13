@@ -9,4 +9,5 @@ public interface IDireccionJPA {
     Result AddDireccion(Direccion direccion, int id);
     Result UpdateDireccion(Direccion direccion, int id);
     Result DeleteDireccion(int id);
+    Result GetAddressById(int id);
 }

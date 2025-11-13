@@ -328,12 +328,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     $('#direccionId').val(d.idDireccion);
                     $('#ddlPais').val(d.Colonia.Municipio.Estado.Pais.idPais);
                     cargarEstados(d.Colonia.Municipio.Estado.Pais.idPais, function() {
-                    $("#ddlEstado").val(d.Colonia.Municipio.Estado.idEstado);
-                    cargarMunicipios(d.Colonia.Municipio.Estado.idEstado, function() {
-                    $("#ddlMunicipio").val(d.Colonia.Municipio.idMunicipio);
-                    cargarColonias(d.Colonia.Municipio.idMunicipio, function() {
-                    $("#ddlColonia").val(d.Colonia.idColonia);
-                    $("#codigoPostal").val(d.Colonia.codigoPostal);
+                        $("#ddlEstado").val(d.Colonia.Municipio.Estado.idEstado);
+                        cargarMunicipios(d.Colonia.Municipio.Estado.idEstado, function() {
+                            $("#ddlMunicipio").val(d.Colonia.Municipio.idMunicipio);
+                            cargarColonias(d.Colonia.Municipio.idMunicipio, function() {
+                                $("#ddlColonia").val(d.Colonia.idColonia);
+                                $("#codigoPostal").val(d.Colonia.codigoPostal);
                     });
                     });
                     });

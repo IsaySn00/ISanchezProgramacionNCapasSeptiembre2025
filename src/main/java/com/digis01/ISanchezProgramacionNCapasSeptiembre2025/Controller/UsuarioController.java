@@ -670,6 +670,6 @@ public class UsuarioController {
     @GetMapping("direccionById/{idDireccion}")
     @ResponseBody
     public Result getDireccionById(@PathVariable("idDireccion") int idDireccion) {
-        return direccionDAOImplementation.GetAddressById(idDireccion);
+        return direccionJPADAOImplementation.GetAddressById(idDireccion);
     }
 }
