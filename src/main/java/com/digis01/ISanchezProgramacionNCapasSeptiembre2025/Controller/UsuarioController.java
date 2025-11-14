@@ -152,7 +152,7 @@ public class UsuarioController {
             lista = LecturaArchivoXLSX(file);
         }
 
-        Result result = usuarioDAOImplementation.AddUsuariosByFile(lista);
+        Result result = usuarioJPADAOImplementation.AddUsuariosByFile(lista);
 
         if (result.correct) {
             model.addAttribute("success", "Los usuarios se procesaron con exito");

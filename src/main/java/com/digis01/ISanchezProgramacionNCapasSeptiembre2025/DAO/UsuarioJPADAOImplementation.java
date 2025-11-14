@@ -10,14 +10,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.digis01.ISanchezProgramacionNCapasSeptiembre2025.Mapper.UsuarioMapper;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public class UsuarioJPADAOImplementation implements IUsuarioJPA{
-    
+public class UsuarioJPADAOImplementation implements IUsuarioJPA {
+
     @Autowired
     EntityManager entityManager;
-    
+
     @Autowired
     private UsuarioMapper usuarioMapper;
 
@@ -25,21 +28,21 @@ public class UsuarioJPADAOImplementation implements IUsuarioJPA{
     public Result GetAll() {
         Result result = new Result();
         result.objects = new ArrayList<>();
-        try{
+        try {
             TypedQuery<UsuarioJPA> queryUsuario = entityManager.createQuery("FROM UsuarioJPA", UsuarioJPA.class);
             List<UsuarioJPA> usuariosJPA = queryUsuario.getResultList();
-            
-            for(UsuarioJPA usuarioJPA : usuariosJPA){
+
+            for (UsuarioJPA usuarioJPA : usuariosJPA) {
                 Usuario usuario = new Usuario();
-                
+
                 usuario = usuarioMapper.EntityToML(usuarioJPA);
-                
+
                 result.objects.add(usuario);
             }
-            
+
             result.correct = true;
-          
-        }catch(Exception ex){
+
+        } catch (Exception ex) {
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
@@ -52,36 +55,36 @@ public class UsuarioJPADAOImplementation implements IUsuarioJPA{
     @Transactional
     public Result AddUsuario(Usuario usuario) {
         Result result = new Result();
-        
-        try{
+
+        try {
             UsuarioJPA usuarioJPA = new UsuarioJPA();
-            
+
             usuarioJPA = usuarioMapper.MLToEntity(usuario);
-            
+
             entityManager.persist(usuarioJPA);
-            
+
             result.correct = true;
-            
-        }catch(Exception ex){
+
+        } catch (Exception ex) {
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
         }
-        
+
         return result;
     }
 
     @Override
     public Result GetById(int id) {
-        
+
         Result result = new Result();
-        try{
+        try {
             UsuarioJPA usuarioJPA = entityManager.find(UsuarioJPA.class, id);
-            
+
             Usuario usuario = new Usuario();
             usuario = usuarioMapper.EntityToML(usuarioJPA);
             result.object = usuario;
-        }catch(Exception ex){
+        } catch (Exception ex) {
             result.correct = true;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
@@ -94,21 +97,21 @@ public class UsuarioJPADAOImplementation implements IUsuarioJPA{
     @Transactional
     public Result UpdateUsuario(Usuario usuario) {
         Result result = new Result();
-        
-        try{
+
+        try {
             UsuarioJPA usuarioFind = entityManager.find(UsuarioJPA.class, usuario.getIdUsuario());
-            
+
             UsuarioJPA usuarioJPA = usuarioMapper.MLToEntity(usuario);
-            
+
             usuarioJPA.setPasswordUser(usuarioFind.getPasswordUser());
             usuarioJPA.setFotoUsuario(usuarioFind.getFotoUsuario());
             usuarioJPA.setDirecciones(usuarioFind.getDirecciones());
-            
+
             entityManager.merge(usuarioJPA);
-            
+
             result.correct = true;
-            
-        }catch(Exception ex){
+
+        } catch (Exception ex) {
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
@@ -119,21 +122,21 @@ public class UsuarioJPADAOImplementation implements IUsuarioJPA{
     @Override
     @Transactional
     public Result UpdateImgUsuario(Usuario usuario) {
-        
+
         Result result = new Result();
-        try{
+        try {
             UsuarioJPA usuarioJPA = usuarioMapper.MLToEntity(usuario);
-            
+
             String query = "UPDATE UsuarioJPA SET FotoUsuario = :newFoto WHERE IdUsuario = :id";
-            
+
             entityManager.createQuery(query)
                     .setParameter("newFoto", usuarioJPA.getFotoUsuario())
                     .setParameter("id", usuarioJPA.getIdUsuario())
                     .executeUpdate();
-            
+
             result.correct = true;
-            
-        }catch(Exception ex){
+
+        } catch (Exception ex) {
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
@@ -145,18 +148,40 @@ public class UsuarioJPADAOImplementation implements IUsuarioJPA{
     @Transactional
     public Result DeleteUsuario(int id) {
         Result result = new Result();
-        
-        try{
+
+        try {
             UsuarioJPA usuarioJPA = entityManager.getReference(UsuarioJPA.class, id);
             entityManager.remove(usuarioJPA);
             result.correct = true;
-            
-        }catch(Exception ex){
+
+        } catch (Exception ex) {
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
         }
         return result;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result AddUsuariosByFile(List<Usuario> usuarios) {
+        Result result = new Result();
+        try {
+            for (Usuario usuario : usuarios) {
+
+                UsuarioJPA usuarioJPA = usuarioMapper.MLToEntity(usuario);
+                entityManager.persist(usuarioJPA);
+            }
+            result.correct = true;
+
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+
+        return result;
+
     }
 
 }

@@ -49,7 +49,7 @@ public class UsuarioJPA {
 
     @NotNull(message = "La contraseña no puede ser nula")
     @NotBlank(message = "La contraseña es obligatoria")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
             message = "La contraseña debe tener al menos una mayúscula, un número, un carácter especial, y mínimo 8 caracteres")
     @Column(name = "password", nullable = false)
     private String PasswordUser;

@@ -42,7 +42,7 @@ public class DireccionJPADAOImplementation implements IDireccionJPA{
     }
 
     @Override
-    @Transactional
+    @Transactional()
     public Result UpdateDireccion(Direccion direccion, int id) {
         Result result = new Result();
         try{
