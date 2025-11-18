@@ -184,4 +184,10 @@ public class UsuarioJPADAOImplementation implements IUsuarioJPA {
 
     }
 
+    @Override
+    public Result GetAllDinamico(Usuario usuario) {
+        Result result = new Result();
+        return result;
+    }
+
 }

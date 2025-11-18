@@ -14,5 +14,5 @@ public interface IUsuarioJPA {
     Result UpdateImgUsuario(Usuario usuario);
     Result DeleteUsuario(int id);
     Result AddUsuariosByFile(List<Usuario> usuarios);
-
+    Result GetAllDinamico(Usuario usuario);
 }
