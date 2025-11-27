@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index}">
+    <body class="container-fluid" layout:fragment="contenido">
+        <p th:if="${loginError}">Erorr al loguearse</p>
+        <form th:action="@{/login}" method="post">
+            <input type="text" name="username" class="form-control"/>
+            <input type="password" name="password" class="form-control"/>
+            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+        </form>
+    </body>
+</html>

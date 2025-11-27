@@ -110,6 +110,17 @@ public class UsuarioController {
     public String FormularioUsuario() {
         return "UsuarioForm";
     }
+    
+    @GetMapping("login")
+    public String Login(){
+        return "login";
+    }
+    
+    @GetMapping("login-error")
+    public String LoginError(Model model){
+        model.addAttribute("loginError", true);
+        return "login";
+    }
 
     @GetMapping("indexUsuario")
     public String Index(Model model) {
