@@ -21,9 +21,12 @@ public class UserDetailsJPAService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UsuarioJPA usuario = iUsuarioRepositoryDAO.findByUserName(username);
 
+        boolean statusUsuario = usuario.getStatusUsuario() == 1 ? false : true;
+        
             return User.withUsername(usuario.getUserName())
                 .password(usuario.getPasswordUser())
                 .roles(usuario.RolJPA.getNombreRol())
+                .disabled(statusUsuario)
                 .build();
     }
 }

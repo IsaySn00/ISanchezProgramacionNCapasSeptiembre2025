@@ -5,7 +5,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 -->
 <html xmlns:th="http://www.thymeleaf.org" 
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{index}">
+      layout:decorate="~{index}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <body class="container-fluid" layout:fragment="contenido">
         <style>
             .profile-img {
@@ -39,7 +40,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     url: `/usuario/deleteUsuario/${idUsuario}`,
                     success: function () {
                     btn.closest('tr').fadeOut(300, function () {
-                        $(this).remove();
+                    $(this).remove();
                     });
                     Swal.fire({
                     title: "El usuario se eliminó con exito",
@@ -57,7 +58,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             })
             })
         </script>
-        <div class="row container mx-auto">
+        <div class="row container mx-auto" sec:authorize="hasRole('admin')">
             <div class="col-12">
                 <div class="row">
                     <div class="col-1 mt-3">

@@ -204,7 +204,7 @@ public class UsuarioDAOImplementation implements IUsuarioDAO {
                 callableStatement.setString(3, usuario.getApellidoMatUsuario());
                 callableStatement.setString(4, usuario.getPasswordUser());
                 callableStatement.setDate(5, sqlDate);
-                callableStatement.setString(6, usuario.getStatusUsuario());
+                callableStatement.setInt(6, usuario.getStatusUsuario());
                 callableStatement.setDate(7, sqlModificacion);
                 byte[] imageBytes = Base64.getDecoder().decode(usuario.getFotoUsuario());
                 callableStatement.setBytes(8, imageBytes);
@@ -251,7 +251,7 @@ public class UsuarioDAOImplementation implements IUsuarioDAO {
                 callableStatement.setString(3, usuario.getApellidoPatUsuario());
                 callableStatement.setString(4, usuario.getApellidoMatUsuario());
                 callableStatement.setDate(5, sqlDate);
-                callableStatement.setString(6, usuario.getStatusUsuario());
+                callableStatement.setInt(6, usuario.getStatusUsuario());
                 callableStatement.setDate(7, sqlModificacion);
                 callableStatement.setString(8, usuario.getUserName());
                 callableStatement.setString(9, usuario.getEmailUsuario());
@@ -440,7 +440,7 @@ public class UsuarioDAOImplementation implements IUsuarioDAO {
                         cs.setString(3, usuario.getApellidoMatUsuario());
                         cs.setString(4, usuario.getPasswordUser());
                         cs.setDate(5, sqlDate);
-                        cs.setString(6, usuario.getStatusUsuario());
+                        cs.setInt(6, usuario.getStatusUsuario());
                         cs.setDate(7, new java.sql.Date(2020, 12, 12));
                         cs.setString(8, usuario.getUserName());
                         cs.setString(9, usuario.getEmailUsuario());

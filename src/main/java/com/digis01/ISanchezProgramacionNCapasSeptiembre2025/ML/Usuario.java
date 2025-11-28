@@ -36,7 +36,7 @@ public class Usuario {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date FechaNacimiento;
 
-    private String StatusUsuario;
+    private int StatusUsuario;
 
     private Date FechaModificacion;
 
@@ -78,7 +78,7 @@ public class Usuario {
 
     public Usuario(
             String NombreUsuario, String ApellidoPatUsuario, String ApellidoMatUsuario, String PasswordUser, Date FechaNacimiento,
-            String StatusUsuario, Date FechaModificacion, String FotoUsuario, String UserName, String EmailUsuario, String SexoUsuario,
+            int StatusUsuario, Date FechaModificacion, String FotoUsuario, String UserName, String EmailUsuario, String SexoUsuario,
             String TelefonoUsuario, String CelularUsuario, String CurpUsuario
     ) {
         this.NombreUsuario = NombreUsuario;
@@ -145,11 +145,11 @@ public class Usuario {
         return FechaNacimiento;
     }
 
-    public void setStatusUsuario(String StatusUsuario) {
+    public void setStatusUsuario(int StatusUsuario) {
         this.StatusUsuario = StatusUsuario;
     }
 
-    public String getStatusUsuario() {
+    public int getStatusUsuario() {
         return StatusUsuario;
     }
 

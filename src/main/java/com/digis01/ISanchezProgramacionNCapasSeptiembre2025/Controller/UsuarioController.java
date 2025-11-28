@@ -47,6 +47,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -99,32 +101,41 @@ public class UsuarioController {
 
     @Autowired
     private MunicipioJPADAOImplementation municipioJPaDAOImplementation;
-    
+
     @Autowired
     private ColoniaJPADAOImplementation coloniaJPADAOImplementation;
-    
-    @Autowired 
+
+    @Autowired
     private RolJPADAOImplementation rolJPADAOImplementation;
 
     @GetMapping("formularioUsuario")
     public String FormularioUsuario() {
         return "UsuarioForm";
     }
-    
-    @GetMapping("login")
-    public String Login(){
-        return "login";
+
+    @GetMapping("forbidden")
+    public String ForbiddenPage(){
+        return "ForbiddenPage";
     }
     
+    @GetMapping("login")
+    public String Login() {
+        return "login";
+    }
+
     @GetMapping("login-error")
-    public String LoginError(Model model){
+    public String LoginError(Model model) {
         model.addAttribute("loginError", true);
         return "login";
     }
 
     @GetMapping("indexUsuario")
-    public String Index(Model model) {
+    public String Index(Model model, Authentication authentication) {
         Result result = usuarioJPADAOImplementation.GetAll();
+
+        String username = authentication.getName();
+
+        model.addAttribute("userName", username);
 
         model.addAttribute("usuarios", result.objects);
         model.addAttribute("Usuario", new Usuario());
@@ -142,11 +153,13 @@ public class UsuarioController {
         return "UsuarioIndex";
     }
 
+    @PreAuthorize("hasRole('admin')")
     @GetMapping("cargaMasiva")
     public String CargaMasiva() {
         return "UsuarioCargaMasiva";
     }
 
+    @PreAuthorize("hasRole('admin')")
     @GetMapping("cargaMasiva/procesar")
     public String CargaMasiva(HttpSession session, Model model) {
 
@@ -176,6 +189,7 @@ public class UsuarioController {
         return "UsuarioCargaMasiva";
     }
 
+    @PreAuthorize("hasRole('admin')")
     @PostMapping("cargaMasiva")
     public String CargaMasiva(@RequestParam("archivo") MultipartFile archivo, Model model, HttpSession session) {
 
@@ -237,7 +251,7 @@ public class UsuarioController {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date fechaNac = formatter.parse(campos[4]);
                 usuario.setFechaNacimiento(fechaNac);
-                usuario.setStatusUsuario(campos[5]);
+                usuario.setStatusUsuario(Integer.parseInt(campos[5]));
                 usuario.setFechaModificacion(new Date());
                 usuario.setUserName(campos[7]);
                 usuario.setEmailUsuario(campos[8]);
@@ -291,7 +305,7 @@ public class UsuarioController {
                 }
 
                 usuario.setFechaNacimiento(fechaNac);
-                usuario.setStatusUsuario(row.getCell(5).toString());
+                usuario.setStatusUsuario(Integer.parseInt(row.getCell(5).toString()));
                 usuario.setFechaModificacion(new Date());
                 usuario.setUserName(row.getCell(7).toString());
                 usuario.setEmailUsuario(row.getCell(8).toString());
@@ -583,6 +597,7 @@ public class UsuarioController {
         return "redirect:/usuario/detail/" + usuario.getIdUsuario();
     }
 
+    @PreAuthorize("hasRole('admin')")
     @PostMapping("deleteUsuario/{idUsuario}")
     public String deleteUsuario(@PathVariable("idUsuario") int idUsuario, RedirectAttributes redirectAttributes) {
         Result result = usuarioJPADAOImplementation.DeleteUsuario(idUsuario);
